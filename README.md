@@ -28,10 +28,10 @@ Basically, the input travels from the keyboard to the plugboard and then, to eac
 
 These are the main references/documentation used in this project:
 
-  [How Enigma Machines Work](http://enigma.louisedade.co.uk/howitworks.html)
-  [An example of the basic Enigma](https://www.codesandciphers.org.uk/enigma/example1.htm)
-  [Universal Enigma](http://people.physik.hu-berlin.de/~palloks/js/enigma/enigma-u_v20_en.html), for checking
-  [M3/M4 Enigma emulator](http://enigma.louisedade.co.uk/enigma.html), also used for checking
+- [How Enigma Machines Work](http://enigma.louisedade.co.uk/howitworks.html)
+- [An example of the basic Enigma](https://www.codesandciphers.org.uk/enigma/example1.htm)
+- [Universal Enigma](http://people.physik.hu-berlin.de/~palloks/js/enigma/enigma-u_v20_en.html), for checking
+- [M3/M4 Enigma emulator](http://enigma.louisedade.co.uk/enigma.html), also used for checking
 
 ## License
 
