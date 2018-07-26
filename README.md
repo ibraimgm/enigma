@@ -1,5 +1,7 @@
 # Enigma
 
+[![Build Status](https://travis-ci.org/ibraimgm/enigma.svg?branch=master)](https://travis-ci.org/ibraimgm/enigma)
+
 ## Description
 
 A simple enigma machine in Go. This is just a toy project to play a bit more with [Go](https://golang.org/) and it's tools, dependency management, and all that.
