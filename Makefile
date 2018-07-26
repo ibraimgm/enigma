@@ -22,6 +22,9 @@ deps: ## Ensure package dependencies are available
 build: deps $(NAME) ## Builds the application for the current platform
 	@true
 
+check: deps ## Run tests (WIP)
+	@true
+
 $(NAME):
 	@go build $(LDFLAGS) $(PKG_PREFIX)/cmd/enigma
 
