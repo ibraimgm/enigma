@@ -1,6 +1,7 @@
 # Enigma
 
 [![Build Status](https://travis-ci.org/ibraimgm/enigma.svg?branch=master)](https://travis-ci.org/ibraimgm/enigma)
+[![Coverage Status](https://coveralls.io/repos/github/ibraimgm/enigma/badge.svg?branch=master)](https://coveralls.io/github/ibraimgm/enigma?branch=master)
 
 ## Description
 

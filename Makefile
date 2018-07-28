@@ -23,7 +23,8 @@ build: deps $(NAME) ## Builds the application for the current platform
 	@true
 
 check: deps ## Run tests (WIP)
-	@true
+	@-rm -f profile.cov
+	@go test -covermode=count -coverprofile=profile.cov ./...
 
 $(NAME):
 	@go build $(LDFLAGS) $(PKG_PREFIX)/cmd/enigma

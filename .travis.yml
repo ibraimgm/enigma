@@ -1,6 +1,8 @@
 language: go
 go:
   - "1.10"
-script: make tools && make check
+script: make tools && make check && $HOME/gopath/bin/goveralls -v -service=travis-ci
 notifications:
   email: false
+before_install:
+  - go get github.com/mattn/goveralls
