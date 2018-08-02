@@ -8,6 +8,9 @@
 # Test binary, build with `go test -c`
 *.test
 
+# Dependencies
+vendor/
+
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 profile.cov
