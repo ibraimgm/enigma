@@ -35,6 +35,7 @@ These are the main references/documentation used in this project:
 - [How Enigma Machines Work](http://enigma.louisedade.co.uk/howitworks.html)
 - [An example of the basic Enigma](https://www.codesandciphers.org.uk/enigma/example1.htm)
 - [Working principle of the Enigma](http://www.cryptomuseum.com/crypto/enigma/working.htm)
+- [Enigma cipher algorithm](http://practicalcryptography.com/ciphers/enigma-cipher/)
 - [Universal Enigma](http://people.physik.hu-berlin.de/~palloks/js/enigma/enigma-u_v20_en.html), for checking
 - [M3/M4 Enigma emulator](http://enigma.louisedade.co.uk/enigma.html), also used for checking
 
