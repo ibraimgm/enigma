@@ -107,5 +107,14 @@ func (r *rotorImpl) Scramble(input Signal) Signal {
 }
 
 func (r *rotorImpl) Reverse(input Signal) Signal {
-	panic("Not implemented yet!")
+	in := int(input)
+
+	for i, v := range r.sequence {
+		if v == in {
+			in = i + 1
+			break
+		}
+	}
+
+	return Signal(in)
 }
