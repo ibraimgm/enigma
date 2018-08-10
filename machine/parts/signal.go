@@ -20,3 +20,13 @@ func intToChar(i int) rune {
 
 	return 0
 }
+
+func fixAlpha(i int) int {
+	if i <= 0 {
+		return i + 26
+	} else if i > 26 {
+		return i - 26
+	}
+
+	return i
+}

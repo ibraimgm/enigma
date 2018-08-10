@@ -47,6 +47,7 @@ func GetRotor(id string) Rotor {
 
 type rotorImpl struct {
 	position int
+	ring     int
 	sequence []int
 	notches  []int
 }
@@ -68,7 +69,7 @@ func CreateRotor(sequence string, notches string) Rotor {
 		sequenceInt[i] = charToInt(sequenceRunes[i])
 	}
 
-	return Rotor(&rotorImpl{position: 1, sequence: sequenceInt, notches: notchesInt})
+	return Rotor(&rotorImpl{position: 1, ring: 1, sequence: sequenceInt, notches: notchesInt})
 }
 
 func (r *rotorImpl) Window() rune {
@@ -81,11 +82,11 @@ func (r *rotorImpl) Move(step int) {
 }
 
 func (r *rotorImpl) Ring() int {
-	panic("Not implemented yet")
+	return r.ring
 }
 
 func (r *rotorImpl) SetRing(value int) {
-	panic("Not implemented yet")
+	r.ring = fixAlpha(value)
 }
 
 func (r *rotorImpl) IsNotched() bool {
@@ -100,21 +101,23 @@ func (r *rotorImpl) IsNotched() bool {
 }
 
 func (r *rotorImpl) Scramble(input Signal) Signal {
-	from := r.position - 1 + int(input) - 1
-	from = int(math.Mod(float64(from+26), 26))
+	from := fixAlpha(int(input) - r.ring + r.position)
+	from = r.sequence[from-1]
+	from = fixAlpha(from + r.ring - r.position)
 
-	return Signal(r.sequence[from])
+	return Signal(from)
 }
 
 func (r *rotorImpl) Reverse(input Signal) Signal {
-	in := int(input)
+	from := fixAlpha(int(input) - r.ring + r.position)
 
 	for i, v := range r.sequence {
-		if v == in {
-			in = i + 1
+		if v == from {
+			from = i + 1
 			break
 		}
 	}
 
-	return Signal(in)
+	from = fixAlpha(from + r.ring - r.position)
+	return Signal(from)
 }

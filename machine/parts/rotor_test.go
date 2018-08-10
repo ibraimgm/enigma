@@ -57,10 +57,10 @@ func TestRotorIMove(t *testing.T) {
 
 func TestRotorISimpleStep(t *testing.T) {
 	tests := []rotorStepTable{
-		{1, 'A', 'B', false, false, 1, 11}, // A -> K
-		{1, 'B', 'C', false, false, 2, 6},  // B -> F
-		{1, 'C', 'D', false, false, 2, 12}, // B -> L
-		{1, 'D', 'E', false, false, 1, 12}, // A -> L
+		{1, 'A', 'B', false, false, 1, 10}, // A -> J
+		{1, 'B', 'C', false, false, 2, 4},  // B -> D
+		{1, 'C', 'D', false, false, 2, 9},  // B -> I
+		{1, 'D', 'E', false, false, 1, 8},  // A -> H
 	}
 
 	rotorStepTableRunner(t, parts.GetRotor("I"), tests)
@@ -68,10 +68,10 @@ func TestRotorISimpleStep(t *testing.T) {
 
 func TestRotorIWeirdStep(t *testing.T) {
 	tests := []rotorStepTable{
-		{1, 'A', 'B', false, false, 1, 11},  // A -> K
-		{2, 'B', 'D', false, false, 2, 12},  // B -> L
-		{1, 'D', 'E', false, false, 2, 7},   // B -> G
-		{-5, 'E', 'Z', false, false, 1, 10}, // A -> J
+		{1, 'A', 'B', false, false, 1, 10},  // A -> J
+		{2, 'B', 'D', false, false, 2, 9},   // B -> I
+		{1, 'D', 'E', false, false, 2, 3},   // B -> C
+		{-5, 'E', 'Z', false, false, 1, 11}, // A -> K
 	}
 
 	rotorStepTableRunner(t, parts.GetRotor("I"), tests)
@@ -79,11 +79,11 @@ func TestRotorIWeirdStep(t *testing.T) {
 
 func TestRotorIINotch(t *testing.T) {
 	tests := []rotorStepTable{
-		{2, 'A', 'C', false, false, 17, 26}, // Q -> Z
-		{1, 'C', 'D', false, false, 21, 22}, // U -> V
-		{1, 'D', 'E', false, false, 5, 24},  // E -> X
-		{1, 'E', 'F', false, true, 5, 2},    // E -> B
-		{1, 'F', 'G', true, false, 14, 14},  // N -> N
+		{2, 'A', 'C', false, false, 17, 24}, // Q -> X
+		{1, 'C', 'D', false, false, 21, 19}, // U -> S
+		{1, 'D', 'E', false, false, 5, 20},  // E -> T
+		{1, 'E', 'F', false, true, 5, 23},   // E -> W
+		{1, 'F', 'G', true, false, 14, 8},   // N -> H
 	}
 
 	rotorStepTableRunner(t, parts.GetRotor("II"), tests)
@@ -121,6 +121,28 @@ func TestRotorScramble(t *testing.T) {
 		{rotor1, false, 19, 19}, // S -> S
 		{rotor2, false, 19, 5},  // S -> E
 		{rotor3, false, 5, 16},  // E -> P
+	}
+
+	rotorScrambleTableRunner(t, tests)
+}
+
+func TestRotorScrambleWithRing(t *testing.T) {
+	rotor3 := parts.GetRotor("III")
+	rotor2 := parts.GetRotor("II")
+	rotor1 := parts.GetRotor("I")
+
+	assert.Equal(t, 1, rotor3.Ring())
+	rotor3.SetRing(2)
+	assert.Equal(t, 2, rotor3.Ring())
+
+	tests := []rotorScrambleTable{
+		{rotor3, true, 7, 13},  // G -> M
+		{rotor2, true, 13, 23}, // M -> W
+		{rotor1, true, 23, 2},  // W -> B
+		//reflector: B -> R
+		{rotor1, false, 18, 24}, // R -> X
+		{rotor2, false, 24, 9},  // X -> I
+		{rotor3, false, 9, 5},   // I -> E
 	}
 
 	rotorScrambleTableRunner(t, tests)
