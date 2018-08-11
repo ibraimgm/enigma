@@ -8,6 +8,15 @@ import (
 	"github.com/ibraimgm/enigma/machine/parts"
 )
 
+func TestRotorCreationID(t *testing.T) {
+	rotors := []string{"I", "II", "III", "IV", "V", "VI", "VII", "VIII"}
+
+	for _, id := range rotors {
+		r := parts.GetRotor(id)
+		assert.Equal(t, id, r.ID())
+	}
+}
+
 type rotorStepTable struct {
 	step          int
 	windowBefore  rune

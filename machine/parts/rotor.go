@@ -9,6 +9,7 @@ import (
 // and is able to convert the signal both from the 'left' (Scramble method) as well as from
 // the 'right' (reverse method), after the signal is reflected by the reflector.
 type Rotor interface {
+	ID() string
 	Window() rune
 	SetWindow(value rune)
 	Move(step int)
@@ -26,27 +27,28 @@ func GetRotor(id string) Rotor {
 
 	switch id {
 	case "I":
-		return CreateRotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q")
+		return CreateRotor("I", "EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q")
 	case "II":
-		return CreateRotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E")
+		return CreateRotor("II", "AJDKSIRUXBLHWTMCQGZNPYFVOE", "E")
 	case "III":
-		return CreateRotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V")
+		return CreateRotor("III", "BDFHJLCPRTXVZNYEIWGAKMUSQO", "V")
 	case "IV":
-		return CreateRotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J")
+		return CreateRotor("IV", "ESOVPZJAYQUIRHXLNFTGKDCMWB", "J")
 	case "V":
-		return CreateRotor("VZBRGITYUPSDNHLXAWMJQOFECK", "Z")
+		return CreateRotor("V", "VZBRGITYUPSDNHLXAWMJQOFECK", "Z")
 	case "VI":
-		return CreateRotor("JPGVOUMFYQBENHZRDKASXLICTW", "ZM")
+		return CreateRotor("VI", "JPGVOUMFYQBENHZRDKASXLICTW", "ZM")
 	case "VII":
-		return CreateRotor("NZJHGRCXMYSWBOUFAIVLPEKQDT", "ZM")
+		return CreateRotor("VII", "NZJHGRCXMYSWBOUFAIVLPEKQDT", "ZM")
 	case "VIII":
-		return CreateRotor("FKQHTLXOCBJSPDZRAMEWNIUYGV", "ZM")
+		return CreateRotor("VIII", "FKQHTLXOCBJSPDZRAMEWNIUYGV", "ZM")
 	default:
 		panic("Unrecognized rotor ID")
 	}
 }
 
 type rotorImpl struct {
+	id       string
 	position int
 	ring     int
 	sequence []int
@@ -55,7 +57,7 @@ type rotorImpl struct {
 
 // CreateRotor creates a new rotor, with the specified sequence (a 26 letter string)
 // and the specified notches (a string with one or more chracters)
-func CreateRotor(sequence string, notches string) Rotor {
+func CreateRotor(rotorID string, sequence string, notches string) Rotor {
 	notchesRunes := []rune(notches)
 	notchesInt := make([]int, len(notchesRunes))
 
@@ -70,7 +72,11 @@ func CreateRotor(sequence string, notches string) Rotor {
 		sequenceInt[i] = charToInt(sequenceRunes[i])
 	}
 
-	return Rotor(&rotorImpl{position: 1, ring: 1, sequence: sequenceInt, notches: notchesInt})
+	return Rotor(&rotorImpl{position: 1, ring: 1, id: rotorID, sequence: sequenceInt, notches: notchesInt})
+}
+
+func (r *rotorImpl) ID() string {
+	return r.id
 }
 
 func (r *rotorImpl) Window() rune {
