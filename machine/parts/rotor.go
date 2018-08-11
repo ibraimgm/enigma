@@ -10,9 +10,10 @@ import (
 // the 'right' (reverse method), after the signal is reflected by the reflector.
 type Rotor interface {
 	Window() rune
+	SetWindow(value rune)
 	Move(step int)
-	Ring() int
-	SetRing(value int)
+	Ring() rune
+	SetRing(value rune)
 	IsNotched() bool
 	Scramble(input Signal) Signal
 	Reverse(input Signal) Signal
@@ -25,21 +26,21 @@ func GetRotor(id string) Rotor {
 
 	switch id {
 	case "I":
-		return CreateRotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "R")
+		return CreateRotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q")
 	case "II":
-		return CreateRotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", "F")
+		return CreateRotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E")
 	case "III":
-		return CreateRotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", "W")
+		return CreateRotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V")
 	case "IV":
-		return CreateRotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", "K")
+		return CreateRotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J")
 	case "V":
-		return CreateRotor("VZBRGITYUPSDNHLXAWMJQOFECK", "A")
+		return CreateRotor("VZBRGITYUPSDNHLXAWMJQOFECK", "Z")
 	case "VI":
-		return CreateRotor("JPGVOUMFYQBENHZRDKASXLICTW", "AN")
+		return CreateRotor("JPGVOUMFYQBENHZRDKASXLICTW", "ZM")
 	case "VII":
-		return CreateRotor("NZJHGRCXMYSWBOUFAIVLPEKQDT", "AN")
+		return CreateRotor("NZJHGRCXMYSWBOUFAIVLPEKQDT", "ZM")
 	case "VIII":
-		return CreateRotor("FKQHTLXOCBJSPDZRAMEWNIUYGV", "AN")
+		return CreateRotor("FKQHTLXOCBJSPDZRAMEWNIUYGV", "ZM")
 	default:
 		panic("Unrecognized rotor ID")
 	}
@@ -76,17 +77,21 @@ func (r *rotorImpl) Window() rune {
 	return intToChar(r.position)
 }
 
+func (r *rotorImpl) SetWindow(value rune) {
+	r.position = fixAlpha(charToInt(value))
+}
+
 func (r *rotorImpl) Move(step int) {
 	newPos := r.position - 1 + step
 	r.position = int(math.Mod(float64(newPos+26), 26)) + 1
 }
 
-func (r *rotorImpl) Ring() int {
-	return r.ring
+func (r *rotorImpl) Ring() rune {
+	return intToChar(r.ring)
 }
 
-func (r *rotorImpl) SetRing(value int) {
-	r.ring = fixAlpha(value)
+func (r *rotorImpl) SetRing(value rune) {
+	r.ring = fixAlpha(charToInt(value))
 }
 
 func (r *rotorImpl) IsNotched() bool {

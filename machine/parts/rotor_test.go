@@ -55,6 +55,21 @@ func TestRotorIMove(t *testing.T) {
 	}
 }
 
+func TestRotorIVWindowAndMove(t *testing.T) {
+	rotor := parts.GetRotor("IV")
+	assert.Equal(t, 'A', rotor.Window())
+
+	rotor.SetWindow('C')
+	assert.Equal(t, 'C', rotor.Window())
+
+	rotor.Move(3)
+	assert.Equal(t, 'F', rotor.Window())
+
+	rotor.SetWindow('Y')
+	rotor.Move(3)
+	assert.Equal(t, 'B', rotor.Window())
+}
+
 func TestRotorISimpleStep(t *testing.T) {
 	tests := []rotorStepTable{
 		{1, 'A', 'B', false, false, 1, 10}, // A -> J
@@ -81,12 +96,26 @@ func TestRotorIINotch(t *testing.T) {
 	tests := []rotorStepTable{
 		{2, 'A', 'C', false, false, 17, 24}, // Q -> X
 		{1, 'C', 'D', false, false, 21, 19}, // U -> S
-		{1, 'D', 'E', false, false, 5, 20},  // E -> T
-		{1, 'E', 'F', false, true, 5, 23},   // E -> W
-		{1, 'F', 'G', true, false, 14, 8},   // N -> H
+		{1, 'D', 'E', false, true, 5, 20},   // E -> T
+		{1, 'E', 'F', true, false, 5, 23},   // E -> W
+		{1, 'F', 'G', false, false, 14, 8},  // N -> H
 	}
 
 	rotorStepTableRunner(t, parts.GetRotor("II"), tests)
+}
+
+func TestRotorVINotch(t *testing.T) {
+	tests := []rotorStepTable{
+		{1, 'A', 'B', false, false, 5, 20},  // E -> T
+		{1, 'B', 'C', false, false, 14, 16}, // N -> P
+		{1, 'C', 'D', false, false, 9, 2},   // I -> B
+		{9, 'D', 'M', false, true, 7, 15},   // G -> O
+		{1, 'M', 'N', true, false, 13, 10},  // M -> J
+		{12, 'N', 'Z', false, true, 1, 24},  // A -> X
+		{1, 'Z', 'A', true, false, 19, 1},   // S -> A
+	}
+
+	rotorStepTableRunner(t, parts.GetRotor("VI"), tests)
 }
 
 type rotorScrambleTable struct {
@@ -131,9 +160,9 @@ func TestRotorScrambleWithRing(t *testing.T) {
 	rotor2 := parts.GetRotor("II")
 	rotor1 := parts.GetRotor("I")
 
-	assert.Equal(t, 1, rotor3.Ring())
-	rotor3.SetRing(2)
-	assert.Equal(t, 2, rotor3.Ring())
+	assert.Equal(t, 'A', rotor3.Ring())
+	rotor3.SetRing('B')
+	assert.Equal(t, 'B', rotor3.Ring())
 
 	tests := []rotorScrambleTable{
 		{rotor3, true, 7, 13},  // G -> M
