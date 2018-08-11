@@ -176,3 +176,29 @@ func TestRotorScrambleWithRing(t *testing.T) {
 
 	rotorScrambleTableRunner(t, tests)
 }
+
+func TestRotorScrambleMultipleRing(t *testing.T) {
+	rotor3 := parts.GetRotor("V")
+	rotor2 := parts.GetRotor("VII")
+	rotor1 := parts.GetRotor("VIII")
+
+	rotor1.SetWindow('I')
+	rotor2.SetWindow('R')
+	rotor3.SetWindow('M')
+
+	rotor1.SetRing('C')
+	rotor2.SetRing('D')
+	rotor3.SetRing('R')
+
+	tests := []rotorScrambleTable{
+		{rotor3, true, 2, 11},  // B -> K
+		{rotor2, true, 11, 16}, // K -> P
+		{rotor1, true, 16, 3},  // P -> C
+		//reflector: C -> U
+		{rotor1, false, 21, 11}, // U -> K
+		{rotor2, false, 11, 22}, // K -> V
+		{rotor3, false, 22, 26}, // V -> Z
+	}
+
+	rotorScrambleTableRunner(t, tests)
+}
