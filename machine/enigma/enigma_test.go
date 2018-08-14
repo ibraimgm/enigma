@@ -46,11 +46,13 @@ func TestWithDefaultsEncode(t *testing.T) {
 }
 
 func TestWithRotorsEncode(t *testing.T) {
-	testEncodeRunner(t, enigma.WithRotors("I", "II", "III", "C"), "WITHROTORS", "IFINGPVFKA", "AAK")
+	e, _ := enigma.WithRotors("I", "II", "III", "C")
+	testEncodeRunner(t, e, "WITHROTORS", "IFINGPVFKA", "AAK")
 }
 
 func TestWithConfigEncode(t *testing.T) {
-	testEncodeRunner(t, enigma.WithConfig("RNG", "WND"), "WITHCONFIG", "SYAPXFISKX", "WNN")
+	e, _ := enigma.WithConfig("RNG", "WND")
+	testEncodeRunner(t, e, "WITHCONFIG", "SYAPXFISKX", "WNN")
 }
 
 func TestStepping(t *testing.T) {
@@ -76,7 +78,8 @@ func TestStepping(t *testing.T) {
 }
 
 func TestDoubleStep(t *testing.T) {
-	testEncodeRunner(t, enigma.WithConfig("AAA", "AEQ"), "A", "L", "BFR")
+	e, _ := enigma.WithConfig("AAA", "AEQ")
+	testEncodeRunner(t, e, "A", "L", "BFR")
 }
 
 func TestEncodeMessage(t *testing.T) {
@@ -100,7 +103,7 @@ func TestEncodeMessage(t *testing.T) {
 }
 
 func TestEncodeDecode(t *testing.T) {
-	e := enigma.WithConfig("SKY", "RIM")
+	e, _ := enigma.WithConfig("SKY", "RIM")
 	s := e.EncodeMessage("LZC KR SK", 0)
 
 	e.Configure("SKY", "RIM")

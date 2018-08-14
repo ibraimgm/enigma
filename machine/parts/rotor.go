@@ -1,6 +1,7 @@
 package parts
 
 import (
+	"errors"
 	"math"
 )
 
@@ -23,27 +24,27 @@ type Rotor interface {
 // GetRotor returns a default implementation of one of the historical rotors.
 // The id must be one of the roman numerals, from I to VIII.
 // Each call to GetRotor returns a new instance.
-func GetRotor(id string) Rotor {
+func GetRotor(id string) (Rotor, error) {
 
 	switch id {
 	case "I":
-		return CreateRotor("I", "EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q")
+		return CreateRotor("I", "EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q"), nil
 	case "II":
-		return CreateRotor("II", "AJDKSIRUXBLHWTMCQGZNPYFVOE", "E")
+		return CreateRotor("II", "AJDKSIRUXBLHWTMCQGZNPYFVOE", "E"), nil
 	case "III":
-		return CreateRotor("III", "BDFHJLCPRTXVZNYEIWGAKMUSQO", "V")
+		return CreateRotor("III", "BDFHJLCPRTXVZNYEIWGAKMUSQO", "V"), nil
 	case "IV":
-		return CreateRotor("IV", "ESOVPZJAYQUIRHXLNFTGKDCMWB", "J")
+		return CreateRotor("IV", "ESOVPZJAYQUIRHXLNFTGKDCMWB", "J"), nil
 	case "V":
-		return CreateRotor("V", "VZBRGITYUPSDNHLXAWMJQOFECK", "Z")
+		return CreateRotor("V", "VZBRGITYUPSDNHLXAWMJQOFECK", "Z"), nil
 	case "VI":
-		return CreateRotor("VI", "JPGVOUMFYQBENHZRDKASXLICTW", "ZM")
+		return CreateRotor("VI", "JPGVOUMFYQBENHZRDKASXLICTW", "ZM"), nil
 	case "VII":
-		return CreateRotor("VII", "NZJHGRCXMYSWBOUFAIVLPEKQDT", "ZM")
+		return CreateRotor("VII", "NZJHGRCXMYSWBOUFAIVLPEKQDT", "ZM"), nil
 	case "VIII":
-		return CreateRotor("VIII", "FKQHTLXOCBJSPDZRAMEWNIUYGV", "ZM")
+		return CreateRotor("VIII", "FKQHTLXOCBJSPDZRAMEWNIUYGV", "ZM"), nil
 	default:
-		panic("Unrecognized rotor ID")
+		return nil, errors.New("Unrecognized rotor ID: '" + id + "'.")
 	}
 }
 
