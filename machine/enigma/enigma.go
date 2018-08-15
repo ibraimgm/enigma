@@ -175,11 +175,7 @@ func (e *enigmaImpl) Configure(ringSetting, windowSetting string) error {
 		return err
 	}
 
-	if err := e.SetWindow(windowSetting); err != nil {
-		return err
-	}
-
-	return nil
+	return e.SetWindow(windowSetting)
 }
 
 func (e *enigmaImpl) Encode(input rune) (rune, bool) {
