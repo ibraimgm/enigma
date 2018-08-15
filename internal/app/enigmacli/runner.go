@@ -1,4 +1,4 @@
-package main
+package enigmacli
 
 import (
 	"fmt"
@@ -9,6 +9,17 @@ import (
 	"github.com/ibraimgm/enigma/machine/parts"
 	getopt "github.com/pborman/getopt/v2"
 )
+
+// Run is the main entry point for the command-line enigma interface
+func Run() {
+	e, isInteractive, blockSize := parseArgs()
+
+	if isInteractive {
+		runInteractiveMode(e)
+	} else {
+		runNormalMode(e, blockSize)
+	}
+}
 
 // parseArgs parse command line arguments and returns a new enigma instance and a boolean indicating
 // if it should be run in interactive mode and the block size for the coded text

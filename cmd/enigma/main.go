@@ -1,11 +1,9 @@
 package main
 
-func main() {
-	e, isInteractive, blockSize := parseArgs()
+import (
+	"github.com/ibraimgm/enigma/internal/app/enigmacli"
+)
 
-	if isInteractive {
-		runInteractiveMode(e)
-	} else {
-		runNormalMode(e, blockSize)
-	}
+func main() {
+	enigmacli.Run()
 }
