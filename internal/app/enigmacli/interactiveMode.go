@@ -3,11 +3,10 @@ package enigmacli
 import (
 	"time"
 
-	"github.com/ibraimgm/enigma/machine/enigma"
 	termbox "github.com/nsf/termbox-go"
 )
 
-func runInteractiveMode(e enigma.Enigma) {
+func runInteractiveMode(info *parseInfo) error {
 	if err := termbox.Init(); err != nil {
 		panic(err)
 	}
