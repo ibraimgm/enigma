@@ -18,6 +18,7 @@ func TestReflectSimple(t *testing.T) {
 	}
 
 	reflector := parts.Reflectors["B"]
+	assert.Equal(t, "B", reflector.ID())
 
 	for _, test := range tests {
 		expected := parts.Signal(test.out)

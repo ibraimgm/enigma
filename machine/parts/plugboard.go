@@ -13,10 +13,10 @@ var NoPlugboard Plugboard = &plugboardImpl{}
 // For example, if plugs  is specified as "ABCD", this means that the plugboard changes 'A' to 'B', 'B' to 'A',
 // 'C' to 'D' and 'D' to 'C'
 func CreatePlugboard(plugs string) Plugboard {
-	return createPlugboardImpl(plugs)
+	return createPlugboardImpl("<custom>", plugs)
 }
 
-func createPlugboardImpl(plugs string) *plugboardImpl {
+func createPlugboardImpl(id string, plugs string) *plugboardImpl {
 	m := make(map[int]int)
 	runes := []rune(plugs)
 	size := len(runes)
@@ -31,10 +31,11 @@ func createPlugboardImpl(plugs string) *plugboardImpl {
 		}
 	}
 
-	return &plugboardImpl{m}
+	return &plugboardImpl{id, m}
 }
 
 type plugboardImpl struct {
+	id    string
 	plugs map[int]int
 }
 

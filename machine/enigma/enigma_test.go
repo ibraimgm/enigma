@@ -29,6 +29,62 @@ func TestConfig(t *testing.T) {
 	assert.Equal(t, "AAA", e.Window())
 }
 
+func TestConfigError(t *testing.T) {
+	e := enigma.WithDefaults()
+
+	err := e.SetWindow("ZZ")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "window settings should be 3 characters long")
+
+	err = e.SetWindow("012")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "window settings should be specified using only uppercase letters")
+
+	err = e.SetRing("ZZ")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "ring settings should be 3 characters long")
+
+	err = e.SetRing("012")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "ring settings should be specified using only uppercase letters")
+
+	err = e.Configure("", "ZZ")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "window settings should be 3 characters long")
+
+	err = e.Configure("", "012")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "window settings should be specified using only uppercase letters")
+
+	err = e.Configure("ZZ", "")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "ring settings should be 3 characters long")
+
+	err = e.Configure("012", "")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "ring settings should be specified using only uppercase letters")
+}
+
+func TestWithRotorsCreation(t *testing.T) {
+	_, err := enigma.WithRotors("XX", "II", "III", "B")
+	assert.EqualError(t, err, "Unrecognized rotor ID: 'XX'.")
+
+	_, err = enigma.WithRotors("I", "XX", "III", "B")
+	assert.EqualError(t, err, "Unrecognized rotor ID: 'XX'.")
+
+	_, err = enigma.WithRotors("I", "II", "XX", "B")
+	assert.EqualError(t, err, "Unrecognized rotor ID: 'XX'.")
+
+	_, err = enigma.WithRotors("I", "II", "III", "XX")
+	assert.EqualError(t, err, "Unknown reflector: 'XX'.")
+
+	e, _ := enigma.WithRotors("I", "II", "III", "C")
+	assert.Equal(t, "I", e.Slow())
+	assert.Equal(t, "II", e.Middle())
+	assert.Equal(t, "III", e.Fast())
+	assert.Equal(t, "C", e.Reflector())
+}
+
 func testEncodeRunner(t *testing.T, enigma enigma.Enigma, plain, encoded, windowAfter string) {
 	expected := []rune(encoded)
 

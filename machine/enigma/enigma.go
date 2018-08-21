@@ -9,6 +9,7 @@ import (
 // Enigma is a interface describing a generic 3-rotor enigma machine.
 // Once built, you cannot change the machine parts, but can configure the window settings and the ring settings
 type Enigma interface {
+	Reflector() string
 	Slow() string
 	Middle() string
 	Fast() string
@@ -63,13 +64,18 @@ func WithRotors(slow, middle, fast, reflector string) (Enigma, error) {
 		return nil, err
 	}
 
+	ref, ok := parts.Reflectors[reflector]
+	if !ok {
+		return nil, errors.New("Unknown reflector: '" + reflector + "'.")
+	}
+
 	return Assemble(
 		parts.DefaultKeyboard,
 		parts.NoPlugboard,
 		r1,
 		r2,
 		r3,
-		parts.Reflectors[reflector],
+		ref,
 		parts.DefaultLightboard,
 	), nil
 }
@@ -90,6 +96,10 @@ func Assemble(keyboard parts.Keyboard, plugboard parts.Plugboard, slow, middle, 
 	enigma.SetRing("AAA")
 
 	return Enigma(enigma)
+}
+
+func (e *enigmaImpl) Reflector() string {
+	return e.reflector.ID()
 }
 
 func (e *enigmaImpl) Slow() string {
