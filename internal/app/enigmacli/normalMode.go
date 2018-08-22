@@ -3,21 +3,21 @@ package enigmacli
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 )
 
-func runNormalMode(info *parseInfo) error {
+func runNormalMode(info *parseInfo, stdout io.Writer, stdin io.Reader) error {
 	e := info.e
 
-	fmt.Fprintf(os.Stdout, "=>    Rotors: \t%s,%s,%s\n", e.Slow(), e.Middle(), e.Fast())
-	fmt.Fprintf(os.Stdout, "=> Reflector: \t%s\n", e.Reflector())
-	fmt.Fprintf(os.Stdout, "=>      Ring: \t%s\n", e.Ring())
-	fmt.Fprintf(os.Stdout, "=>    Window: \t%s\n", e.Window())
-	fmt.Fprintln(os.Stdout, "--- Running in 'normal' mode; EOF to exit ---")
+	fmt.Fprintf(stdout, "=>    Rotors: \t%s,%s,%s\n", e.Slow(), e.Middle(), e.Fast())
+	fmt.Fprintf(stdout, "=> Reflector: \t%s\n", e.Reflector())
+	fmt.Fprintf(stdout, "=>      Ring: \t%s\n", e.Ring())
+	fmt.Fprintf(stdout, "=>    Window: \t%s\n", e.Window())
+	fmt.Fprintln(stdout, "--- Running in 'normal' mode; EOF to exit ---")
 
-	scanner := bufio.NewScanner(os.Stdin)
+	scanner := bufio.NewScanner(stdin)
 	for scanner.Scan() {
-		fmt.Println(e.EncodeMessage(scanner.Text(), info.blockSize))
+		fmt.Fprintln(stdout, e.EncodeMessage(scanner.Text(), info.blockSize))
 	}
 
 	if err := scanner.Err(); err != nil {
