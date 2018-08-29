@@ -17,7 +17,7 @@ func TestRotorCreationID(t *testing.T) {
 	}
 
 	_, err := parts.GetRotor("XX")
-	assert.EqualError(t, err, "Unrecognized rotor ID: 'XX'.")
+	assert.EqualError(t, err, "unrecognized rotor ID: 'XX'")
 }
 
 type rotorStepTable struct {

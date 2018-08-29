@@ -66,7 +66,7 @@ func WithRotors(slow, middle, fast, reflector string) (Enigma, error) {
 
 	ref, ok := parts.Reflectors[reflector]
 	if !ok {
-		return nil, errors.New("Unknown reflector: '" + reflector + "'.")
+		return nil, errors.New("unknown reflector: '" + reflector + "'")
 	}
 
 	return Assemble(

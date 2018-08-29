@@ -67,16 +67,16 @@ func TestConfigError(t *testing.T) {
 
 func TestWithRotorsCreation(t *testing.T) {
 	_, err := enigma.WithRotors("XX", "II", "III", "B")
-	assert.EqualError(t, err, "Unrecognized rotor ID: 'XX'.")
+	assert.EqualError(t, err, "unrecognized rotor ID: 'XX'")
 
 	_, err = enigma.WithRotors("I", "XX", "III", "B")
-	assert.EqualError(t, err, "Unrecognized rotor ID: 'XX'.")
+	assert.EqualError(t, err, "unrecognized rotor ID: 'XX'")
 
 	_, err = enigma.WithRotors("I", "II", "XX", "B")
-	assert.EqualError(t, err, "Unrecognized rotor ID: 'XX'.")
+	assert.EqualError(t, err, "unrecognized rotor ID: 'XX'")
 
 	_, err = enigma.WithRotors("I", "II", "III", "XX")
-	assert.EqualError(t, err, "Unknown reflector: 'XX'.")
+	assert.EqualError(t, err, "unknown reflector: 'XX'")
 
 	e, _ := enigma.WithRotors("I", "II", "III", "C")
 	assert.Equal(t, "I", e.Slow())

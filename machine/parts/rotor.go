@@ -44,7 +44,7 @@ func GetRotor(id string) (Rotor, error) {
 	case "VIII":
 		return CreateRotor("VIII", "FKQHTLXOCBJSPDZRAMEWNIUYGV", "ZM"), nil
 	default:
-		return nil, errors.New("Unrecognized rotor ID: '" + id + "'.")
+		return nil, errors.New("unrecognized rotor ID: '" + id + "'")
 	}
 }
 

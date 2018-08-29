@@ -6,7 +6,7 @@ import (
 
 // Run is the main entry point for the command-line enigma interface
 func Run() error {
-	info, err := parseArgs()
+	info, err := parseArgs(os.Args, os.Stdout)
 	if err != nil {
 		return err
 	}
