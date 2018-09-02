@@ -25,7 +25,7 @@ build: deps $(NAME) ## Builds the application for the current platform
 check: deps ## Run tests (WIP)
 	@-rm -f profile.cov
 	@-rm -f cover.html
-	@go test -coverprofile=profile.cov  `go list ./... | grep -v cmd`
+	@go test -covermode=count -coverprofile=profile.cov  `go list ./... | grep -v cmd`
 
 cover: check
 	@-rm -f cover.html

@@ -42,12 +42,12 @@ func TestParseArgsHelp(t *testing.T) {
 }
 
 func TestParseArgsOK(t *testing.T) {
-	info, err := parseArgs([]string{"cmd", "-b", "3", "-i"}, nil)
+	info, err := parseArgs([]string{"cmd", "-b", "3", "-o", "a.out"}, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, info)
 
 	assert.NotNil(t, info.e)
 	assert.False(t, info.isHelp)
-	assert.True(t, info.isInteractive)
 	assert.Equal(t, info.blockSize, uint(3))
+	assert.Equal(t, "a.out", info.fileName)
 }

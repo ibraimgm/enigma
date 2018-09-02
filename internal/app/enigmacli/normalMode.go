@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-func runNormalMode(info *parseInfo, stdout io.Writer, stdin io.Reader) error {
+func runNormalMode(info *parseInfo, stdin io.Reader, stdout, file io.Writer) error {
 	e := info.e
 
 	fmt.Fprintf(stdout, "=>    Rotors: \t%s,%s,%s\n", e.Slow(), e.Middle(), e.Fast())
@@ -17,7 +17,7 @@ func runNormalMode(info *parseInfo, stdout io.Writer, stdin io.Reader) error {
 
 	scanner := bufio.NewScanner(stdin)
 	for scanner.Scan() {
-		fmt.Fprintln(stdout, e.EncodeMessage(scanner.Text(), info.blockSize))
+		fmt.Fprintln(file, e.EncodeMessage(scanner.Text(), info.blockSize))
 	}
 
 	if err := scanner.Err(); err != nil {

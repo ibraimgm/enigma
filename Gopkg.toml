@@ -35,8 +35,4 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/nsf/termbox-go"
-
-[[constraint]]
-  branch = "master"
   name = "github.com/pborman/getopt"

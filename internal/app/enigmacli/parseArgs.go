@@ -13,10 +13,10 @@ import (
 )
 
 type parseInfo struct {
-	e             enigma.Enigma
-	isInteractive bool
-	isHelp        bool
-	blockSize     uint
+	e         enigma.Enigma
+	fileName  string
+	isHelp    bool
+	blockSize uint
 }
 
 // parseArgs parse command line arguments and returns a new enigma instance and a boolean indicating
@@ -24,12 +24,12 @@ type parseInfo struct {
 func parseArgs(args []string, stdout io.Writer) (*parseInfo, error) {
 	getopt.CommandLine = getopt.New()
 	helpFlag := getopt.BoolLong("help", 'h', "Show usage and exit")
-	interactiveFlag := getopt.BoolLong("interactive", 'i', "Runs in interactive mode (console gui)")
 	rotorsOpt := getopt.StringLong("rotors", 'r', "III,II,I", "Comma-separated list of rotors to be used.", "III,II,I")
 	reflectorOpt := getopt.StringLong("reflector", 'f', "B", "Reflector to use.", "B")
 	ringOpt := getopt.StringLong("ring", 'g', "AAA", "Ring settings to be used.", "ABC")
 	windowOpt := getopt.StringLong("window", 'w', "AAA", "Window settings to be used.", "ABC")
 	blockOpt := getopt.IntLong("blocksize", 'b', 5, "Block size of the coded text (default: 5)")
+	fileOpt := getopt.StringLong("output", 'o', "", "Output file to write.", "a.txt")
 
 	if err := parseGetopt(args); err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func parseArgs(args []string, stdout io.Writer) (*parseInfo, error) {
 		fmt.Fprintln(stdout)
 		fmt.Fprintln(stdout, "All command-line arguments are optional.")
 		fmt.Fprintln(stdout, "By default, enigma run in 'normal' mode, which reads one line from sdtin and outputs encoded text, until EOF is reached.")
-		fmt.Fprintln(stdout, "This means that after writing a line and pressing 'Enter', the coded version will be displayed immediately.")
+		fmt.Fprintln(stdout, "This means that after writing a line and pressing 'Enter', the coded version will be displayed immediately (written to file).")
 		fmt.Fprintln(stdout, "The coding process will output the characters in 'blocks', whose size can be controlled with the '-b' flag.")
 		return &parseInfo{isHelp: true}, nil
 	}
@@ -68,7 +68,7 @@ func parseArgs(args []string, stdout io.Writer) (*parseInfo, error) {
 		return nil, err
 	}
 
-	return &parseInfo{e, *interactiveFlag, false, uint(*blockOpt)}, nil
+	return &parseInfo{e, *fileOpt, false, uint(*blockOpt)}, nil
 }
 
 func parseGetopt(args []string) error {

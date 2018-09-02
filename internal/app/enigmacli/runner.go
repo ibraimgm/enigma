@@ -1,6 +1,7 @@
 package enigmacli
 
 import (
+	"bufio"
 	"os"
 )
 
@@ -15,9 +16,18 @@ func Run() error {
 		return nil
 	}
 
-	if info.isInteractive {
-		return runInteractiveMode(info)
+	outputFile := os.Stdout
+
+	if info.fileName != "" {
+		outputFile, err = os.Create(info.fileName)
+		if err != nil {
+			return err
+		}
+		defer outputFile.Close()
+
+		outputFile := bufio.NewWriter(outputFile)
+		defer outputFile.Flush()
 	}
 
-	return runNormalMode(info, os.Stdout, os.Stdin)
+	return runNormalMode(info, os.Stdin, os.Stdout, outputFile)
 }

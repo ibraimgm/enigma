@@ -17,7 +17,7 @@ func TestNormalModeOK(t *testing.T) {
 		blockSize: 5,
 	}
 
-	err := runNormalMode(info, stdout, stdin)
+	err := runNormalMode(info, stdin, stdout, stdout)
 	assert.NoError(t, err)
 
 	output := stdout.String()
@@ -39,7 +39,7 @@ func TestNormalModeError(t *testing.T) {
 		blockSize: 5,
 	}
 
-	err := runNormalMode(info, stdout, stdin)
+	err := runNormalMode(info, stdin, stdout, stdout)
 	assert.EqualError(t, err, "some I/O error happened")
 
 	output := stdout.String()
