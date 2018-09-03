@@ -1,16 +1,36 @@
 # Enigma
 
 [![Build Status](https://travis-ci.org/ibraimgm/enigma.svg?branch=master)](https://travis-ci.org/ibraimgm/enigma)
-[![Coverage Status](https://coveralls.io/repos/github/ibraimgm/enigma/badge.svg?branch=master)](https://coveralls.io/github/ibraimgm/enigma?branch=master)
+[![codecov](https://codecov.io/gh/ibraimgm/enigma/branch/master/graph/badge.svg)](https://codecov.io/gh/ibraimgm/enigma)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ibraimgm/enigma)](https://goreportcard.com/report/github.com/ibraimgm/enigma)
+[![Enigma Docs](https://img.shields.io/badge/godoc-enigma_api-blue.svg)](https://godoc.org/github.com/ibraimgm/enigma/machine/enigma)
+[![Parts Docs](https://img.shields.io/badge/godoc-parts_api-blue.svg)](https://godoc.org/github.com/ibraimgm/enigma/machine/parts)
 
-## Description
+<!-- TOC -->
+
+- [Enigma](#enigma)
+  - [Basic information](#basic-information)
+    - [Description](#description)
+    - [What is a "Enigma Machine"](#what-is-a-enigma-machine)
+    - [How does it work](#how-does-it-work)
+  - [Usage](#usage)
+    - [Command-line application](#command-line-application)
+    - [API](#api)
+    - [Caveats](#caveats)
+  - [References](#references)
+  - [License](#license)
+
+<!-- /TOC -->
+
+## Basic information
+
+### Description
 
 A simple enigma machine in Go. This is just a toy project to play a bit more with [Go](https://golang.org/) and it's tools, dependency management, and all that.
 
-The main objective is to emulate a "generic" M3/M4 Enigma (the most known/used model in the War), with a terminal GUI.
+The main objective is to emulate a "generic" M3/M4 Enigma (the most known/used model in the War), in the command line.
 
-## What is a "Enigma Machine"
+### What is a "Enigma Machine"
 
 According to [Wikipedia](https://en.wikipedia.org/wiki/Enigma_machine),
 
@@ -18,7 +38,7 @@ According to [Wikipedia](https://en.wikipedia.org/wiki/Enigma_machine),
 
 It was, basically, a machine used to encode military messages on WWII. It has an interesting history and emultating it serves as a fun programming exercise.
 
-## How does it work
+### How does it work
 
 Some people belive that an image is worth a thousand words. If that is the case, the followin diagram
 (stolen from [here](http://enigma.louisedade.co.uk/howitworks.html)) sums up pretty well how such a machine
@@ -27,6 +47,25 @@ works:
 ![Enigma wiring diagram](./wiringdiagram.png)
 
 Basically, the input travels from the keyboard to the plugboard and then, to each rotor, ultil it reaches the reflector (red arrow). After that, the signal bounces on the opposite path, until it reaches the lightboard (blue arrow). Not that complicated, right?
+
+## Usage
+
+### Command-line application
+
+Simply running the executable is enough to start the application with a default set of options (use `--help`) to see all the flags available. By default, the coded text is written to `STDOUT` after every newline. You can change this behavior using the `-o` flag, e. g. `enigma -o coded.txt`.
+
+You can also encode an entire file in one go by piping it to the application: `cat plain.txt | enigma -q > coded.txt`.
+
+### API
+
+There are basically two ways to use the API. The first one, in the package [enigma](https://godoc.org/github.com/ibraimgm/enigma/machine/enigma) exports an easy-to-use built-int enigma machine, with configurable rotors, ring settings and window settings. It is also possible to use the [Assemble](https://godoc.org/github.com/ibraimgm/enigma/machine/enigma#Assemble) funcion to specify
+every individual part of the machine.
+
+The second package, [parts](https://godoc.org/github.com/ibraimgm/enigma/machine/parts), contains the interfaces for every machine part used by the enigma, with default implementations as well.
+
+### Caveats
+
+This implementation is a bit more 'flexible' than the actual enigma hardware. For example, you can use the same rotor  more than once all rotors are valid in all positions, etc. This is intentional to make the API and machine construction as flexible as possible.
 
 ## References
 
