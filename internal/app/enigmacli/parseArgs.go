@@ -15,6 +15,7 @@ import (
 type parseInfo struct {
 	e         enigma.Enigma
 	fileName  string
+	isQuiet   bool
 	isHelp    bool
 	blockSize uint
 }
@@ -30,6 +31,7 @@ func parseArgs(args []string, stdout io.Writer) (*parseInfo, error) {
 	windowOpt := getopt.StringLong("window", 'w', "AAA", "Window settings to be used.", "ABC")
 	blockOpt := getopt.IntLong("blocksize", 'b', 5, "Block size of the coded text (default: 5)")
 	fileOpt := getopt.StringLong("output", 'o', "", "Output file to write.", "a.txt")
+	quietOpt := getopt.BoolLong("quiet", 'q', "Do not print standard banner.")
 
 	if err := parseGetopt(args); err != nil {
 		return nil, err
@@ -68,7 +70,7 @@ func parseArgs(args []string, stdout io.Writer) (*parseInfo, error) {
 		return nil, err
 	}
 
-	return &parseInfo{e, *fileOpt, false, uint(*blockOpt)}, nil
+	return &parseInfo{e, *fileOpt, *quietOpt, false, uint(*blockOpt)}, nil
 }
 
 func parseGetopt(args []string) error {
