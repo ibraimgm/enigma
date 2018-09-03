@@ -29,7 +29,7 @@ check: deps ## Run tests (WIP)
 
 cover: check
 	@-rm -f cover.html
-	@go tool cover -html=profile.cov -o cover.html
+	@go tool cover -html=coverage.txt -o cover.html
 
 $(NAME):
 	@go build $(LDFLAGS) $(PKG_PREFIX)/cmd/enigma

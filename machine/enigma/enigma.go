@@ -1,3 +1,4 @@
+//Package enigma provides a quick and easy way to create and assemble a new enigma machine instance.
 package enigma
 
 import (
