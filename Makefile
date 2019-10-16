@@ -12,7 +12,7 @@ download: ## download dependencies
 	@ go get -t ./...
 
 build: ## Builds the application for the current platform
-	@ go build $(LDFLAGS) $(PKG_PREFIX)/cmd/enigma
+	@ go build $(LDFLAGS) $(PKG_PREFIX)/cmd/$(NAME)
 
 check: ## Run tests (WIP)
 	@ go test -covermode=count -coverprofile=coverage.txt  `go list ./... | grep -v cmd`
