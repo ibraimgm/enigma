@@ -1,7 +1,7 @@
 language: go
 go:
   - "1.10"
-script: make tools && make check
+script: make download && make check
 notifications:
   email: false
 after_success:
