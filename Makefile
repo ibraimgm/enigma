@@ -3,36 +3,25 @@ NAME = enigma
 VERSION = 0.1.0
 BUILD = `git rev-parse HEAD`
 
-GOTOOLS = \
-	github.com/golang/dep
-
 LDFLAGS = -ldflags "-X=main.Version=$(VERSION) -X=main.Build=$(BUILD)"
-
-tools: ## Install the tools needed for development and dependency management
-	go get -u -v $(GOTOOLS)
-	# 'dep' need extra steps:
-	cd $(GOPATH)/src/github.com/golang/dep && git describe --abbrev=0 --tags | xargs git checkout && go install ./cmd/dep && git checkout master
 
 clean: ## Remove the generated binary
 	-@rm -f $(NAME)
 
-deps: ## Ensure package dependencies are available
-	@dep ensure
+download: ## download dependencies
+	@ go mod download
 
-build: deps $(NAME) ## Builds the application for the current platform
-	@true
+build: ## Builds the application for the current platform
+	@ go build $(LDFLAGS) $(PKG_PREFIX)/cmd/enigma
 
-check: deps ## Run tests (WIP)
-	@-rm -f coverage.txt
-	@-rm -f cover.html
-	@go test -covermode=count -coverprofile=coverage.txt  `go list ./... | grep -v cmd`
+check: ## Run tests (WIP)
+	@ go test -covermode=count -coverprofile=coverage.txt  `go list ./... | grep -v cmd`
 
 cover: check
 	@-rm -f cover.html
 	@go tool cover -html=coverage.txt -o cover.html
 
-$(NAME):
-	@go build $(LDFLAGS) $(PKG_PREFIX)/cmd/enigma
+$(NAME): build
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
