@@ -9,7 +9,7 @@ clean: ## Remove the generated binary
 	-@rm -f $(NAME)
 
 download: ## download dependencies
-	@ go mod download
+	@ go get ./...
 
 build: ## Builds the application for the current platform
 	@ go build $(LDFLAGS) $(PKG_PREFIX)/cmd/enigma
